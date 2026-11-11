@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="uz" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Usta Elon Uz - Farg'ona Viloyati Malakali Ustalar va Professional Uskunalar Markazi</title>
+  
+  <!-- Favicon Emblem -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23d4af37'><path d='M12 2l8 4v6c0 5.5-3.5 10.7-8 12-4.5-1.3-8-6.5-8-12V6l8-4z'/></svg>">
+  
+  <!-- Leaflet CSS for Fergana Regional Map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  
+  <!-- Main Stylesheet (both style.css and stayl.css linked for 100% guarantee) -->
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./stayl.css">
+</head>
+<body>
+
+  <!-- ======================================================================
+       HEADER
+       ====================================================================== -->
+  <header class="site-header">
+    <div class="header-container">
+      
+      <!-- Brand Logo / Gold Emblem -->
+      <a href="#" class="brand-wrapper" title="Usta Elon Uz">
+        <div class="brand-emblem">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="url(#goldGrad)">
+            <defs>
+              <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#fff1a8" />
+                <stop offset="50%" stop-color="#d4af37" />
+                <stop offset="100%" stop-color="#aa771c" />
+              </linearGradient>
+            </defs>
+            <!-- Sleek Gold Shield Emblem with Construction Tools -->
+            <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-1 6h2v3h3v2h-3v5h-2v-5H8v-2h3V7z" />
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">
+            <span class="gold-gradient-text">USTA ELON</span>
+            <span style="color: var(--text-main); font-weight: 800;">UZ</span>
+          </span>
+          <span class="brand-subtitle">Farg'ona Viloyati Usta va Asboblar Portali</span>
+        </div>
+      </a>
+
+      <!-- Quick Search Bar -->
+      <div class="header-search">
+        <span class="search-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </span>
+        <input type="text" id="header-search-input" placeholder="Usta yoki asbob-uskunalarni qidirish...">
+      </div>
+
+      <!-- Action Controls -->
+      <div class="header-actions">
+        
+        <!-- Language Selector -->
+        <select id="lang-select" class="form-select" style="padding: 0.5rem 0.6rem; border-radius: 10px; font-size: 0.82rem; font-weight: 700; width: auto;">
+          <option value="uz">O'ZB</option>
+          <option value="ru">РУС</option>
+          <option value="en">ENG</option>
+        </select>
+
+        <!-- Day / Night Theme Toggle -->
+        <button id="theme-toggle-btn" class="btn-icon" title="Tun / Kun rejimi">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+
+        <!-- Shopping Cart Trigger -->
+        <button class="btn-icon" onclick="openCartDrawer()" title="Savatcha">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          <span id="header-cart-badge" class="cart-badge-count" style="display: none;">0</span>
+        </button>
+
+        <!-- Settings Modal Trigger -->
+        <button class="btn-icon" onclick="openModal('settings-modal')" title="Sozlamalar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </button>
+
+        <!-- User Role Profile / Login Button -->
+        <button id="btn-header-login" class="gold-button-outline" style="padding: 0.5rem 0.9rem; font-size: 0.85rem;" onclick="openModal('auth-choice-modal')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>Kirish / Ro'yxatdan o'tish</span>
+        </button>
+
+        <!-- Become a Master Button -->
+        <button class="gold-button" style="padding: 0.5rem 1rem; font-size: 0.85rem;" onclick="openModal('master-register-modal')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+          <span>Usta bo'lish</span>
+        </button>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- ======================================================================
+       5 ASOSIY BO'LIM (STRICT 5 SECTIONS NAVIGATION)
+       1. Bosh sahifa | 2. Ustalar | 3. Xarita | 4. Do'kon | 5. Aloqa
+       ====================================================================== -->
+  <nav class="sub-nav">
+    <div class="sub-nav-container">
+      <ul class="nav-links">
+        <li>
+          <a href="#hero" class="nav-link active">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span>Bosh sahifa</span>
+          </a>
+        </li>
+        <li>
+          <a href="#masters-section" class="nav-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <span>Ustalar</span>
+          </a>
+        </li>
+        <li>
+          <a href="#map-section" class="nav-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+            <span>Xarita</span>
+          </a>
+        </li>
+        <li>
+          <a href="#store-section" class="nav-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            <span>Do'kon</span>
+          </a>
+        </li>
+        <li>
+          <a href="#contact-footer" class="nav-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <span>Aloqa</span>
+          </a>
+        </li>
+      </ul>
+
+      <!-- Dedicated Admin Panel Entrance Button (Unique Console) -->
+      <button class="nav-link nav-admin-link" onclick="openModal('admin-login-modal')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <span>Admin Panel (ABDUNOZIM)</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ======================================================================
+       1. BOSH SAHIFA (HERO SECTION)
+       ====================================================================== -->
+  <section id="hero" class="hero-section">
+    <div class="hero-container">
+      
+      <div class="hero-content">
+        <span class="gold-badge hero-badge-tag">
+          Farg'ona Viloyatining Rasmiy Usta va Asboblar Portali
+        </span>
+        
+        <h1 class="hero-title">
+          <span>Har qanday qurilish va ta'mir uchun</span><br>
+          <span class="gold-gradient-text">Eng malakali Farg'ona ustalari</span><br>
+          <span>va professional uskunalar</span>
+        </h1>
+
+        <p class="hero-desc">
+          Farg'ona, Qo'qon, Marg'ilon, Rishton, Quva va Oltiariq hududlarida uyingiz uchun sinalgan ustalarni chaqiring yoki qurilish asbob-uskunalarini qulay narxda xarid qiling.
+        </p>
+
+        <!-- Role Entry Quick Actions (Mijoz & Usta) -->
+        <div style="display: flex; gap: 0.85rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+          <button class="gold-button" onclick="openModal('client-register-modal')" style="padding: 0.8rem 1.4rem;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Mijoz bo'lib kirish
+          </button>
+          <button class="gold-button-outline" onclick="openModal('master-register-modal')" style="padding: 0.8rem 1.4rem;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+            Usta bo'lib ro'yxatdan o'tish
+          </button>
+        </div>
+
+        <!-- Fast Search Box -->
+        <div class="hero-search-box">
+          <input type="text" id="hero-search-input" class="hero-search-input" placeholder="Qaysi usta yoki asbob kerak? (Masalan: Uy qurish, Kafel, Perforator...)">
+          <button class="gold-button" onclick="document.getElementById('masters-section').scrollIntoView({behavior: 'smooth'})">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <span>Qidirish</span>
+          </button>
+        </div>
+
+        <!-- Platform Stats -->
+        <div class="hero-stats-row">
+          <div class="hero-stat-item">
+            <h4>10+</h4>
+            <p>Top Malakali Usta</p>
+          </div>
+          <div class="hero-stat-item">
+            <h4>Farg'ona</h4>
+            <p>Jonli Xarita Qamrovi</p>
+          </div>
+          <div class="hero-stat-item">
+            <h4>100%</h4>
+            <p>Kafolatlangan Xizmat</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Visual Card (Spotlight Master) -->
+      <div class="hero-visual">
+        <div class="hero-main-card">
+          <div class="hero-card-header">
+            <span class="vip-badge">Kafolatlangan Usta</span>
+            <span style="color: var(--gold-500); font-weight: 700; font-size: 0.85rem;">Platforma Tavsiyasi</span>
+          </div>
+
+          <div class="hero-featured-master">
+            <img class="hero-master-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80" alt="Anvarjon Yo'ldoshev">
+            <div class="hero-master-details">
+              <h3>Anvarjon Yo'ldoshev</h3>
+              <div class="hero-master-profession">Uy qurish, Poydevor & Monolit</div>
+              <div class="hero-rating-stars">
+                <span>★★★★★</span>
+                <strong style="color: var(--text-main); font-size: 0.85rem;">4.96</strong>
+                <span style="color: var(--text-muted); font-size: 0.78rem;">(168 sharh)</span>
+              </div>
+            </div>
+          </div>
+
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem; line-height: 1.5;">
+            "Noldan boshlab kalit topshirishgacha bo'lgan barcha turar-joy va bino qurilish ishlari. Poydevor quyish, armatura to'qish, beton va g'isht terish."
+          </p>
+
+          <div class="hero-fast-features">
+            <div class="fast-feat-box">
+              <strong>Manzil:</strong>
+              <span>Farg'ona shahri</span>
+            </div>
+            <div class="fast-feat-box">
+              <strong>Xizmat Narxi:</strong>
+              <span style="color: var(--gold-500); font-weight: 700;">120 000 so'm / soat</span>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 0.6rem; margin-top: 1.25rem;">
+            <button class="gold-button" style="flex: 1; padding: 0.65rem;" onclick="openCallMasterModal(1)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              Ustani chaqirish (Anketa)
+            </button>
+            <button class="gold-button-outline" style="padding: 0.65rem 1rem;" onclick="openMasterDetailModal(1)">
+              Profil
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       EXCLUSIVE CYBER-GOLD ADMIN COMMAND CONSOLE
+       (Distinct visual style: Active only after ABDUNOZIM / 2011 2011 login)
+       ====================================================================== -->
+  <section id="admin-command-console" class="admin-command-console">
+    <!-- Topbar -->
+    <div class="admin-console-topbar">
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <div class="brand-emblem" style="width: 40px; height: 40px;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#ffd700"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <div>
+          <h2 style="font-size: 1.25rem; font-weight: 800; color: #ffd700;">
+            ADMINISTRATOR KONSOLI: ABDUNOZIM
+          </h2>
+          <span class="admin-terminal-badge">Farg'ona Viloyati Boshqaruv Markazi (Kod: 2011 2011)</span>
+        </div>
+      </div>
+      <button class="gold-button-outline" style="border-color: #ef4444; color: #ef4444; padding: 0.5rem 1.2rem;" onclick="handleAdminConsoleLogout()">
+        Konsoldan Chiqish
+      </button>
+    </div>
+
+    <div class="admin-console-body">
+      
+      <!-- 1. CHAQIRUV ANKETALARI RO'YXATI -->
+      <div class="admin-console-section">
+        <h3 class="admin-console-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          Mijozlardan Kelib Tushgan Chaqiruv Anketalari
+        </h3>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">
+          Mijozlar tomonidan to'ldirilgan barcha anketa buyurtmalari (Istiqomat joyi, ish turi va telefon raqami):
+        </p>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Anketa ID</th>
+                <th>Mijoz Ism-Familiyasi</th>
+                <th>Telefon Raqami</th>
+                <th>Istiqomat Joyi (Manzil)</th>
+                <th>Ish Turi</th>
+                <th>Tanlangan Usta</th>
+                <th>Holat (Status)</th>
+              </tr>
+            </thead>
+            <tbody id="admin-requests-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 2. DO'KONGA YANGI ASBOB QO'SHISH -->
+      <div class="admin-console-section">
+        <h3 class="admin-console-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          Do'konga Yangi Asbob-Uskuna Qo'shish
+        </h3>
+        
+        <!-- Quick Preset Chips -->
+        <label class="form-label" style="color: var(--gold-400);">⚡ Tayyor asbob shablonlari (1-bosishda to'ldirish):</label>
+        <div class="admin-preset-grid">
+          <button type="button" class="admin-preset-chip" onclick="applyToolPreset(0)">DeWalt Perforator</button>
+          <button type="button" class="admin-preset-chip" onclick="applyToolPreset(1)">Lazer Uriven 4D</button>
+          <button type="button" class="admin-preset-chip" onclick="applyToolPreset(2)">Bosch Shurupovert</button>
+          <button type="button" class="admin-preset-chip" onclick="applyToolPreset(3)">Resanta Payvandlash</button>
+          <button type="button" class="admin-preset-chip" onclick="applyToolPreset(4)">Monolit Plitkorez</button>
+          <button type="button" class="admin-preset-chip" onclick="applyToolPreset(5)">Makita Bolgarka</button>
+        </div>
+
+        <form id="add-product-form" style="max-width: 750px;">
+          <div class="form-group">
+            <label class="form-label">Asbob-Uskuna Nomi *</label>
+            <input type="text" id="add-prod-name" class="form-input" placeholder="Masalan: Lazer Uriven 4D 16 Liniyali Yashil Nur" required>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label">Brend / Ishlab chiqaruvchi</label>
+              <input type="text" id="add-prod-brand" class="form-input" placeholder="Bosch, DeWalt, Makita..." required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Toifasi</label>
+              <select id="add-prod-category" class="form-select">
+                <option value="elektr_asboblar">Elektr asboblar</option>
+                <option value="olchov">O'lchov vositalari</option>
+                <option value="qol_asboblari">Qo'l asboblari</option>
+                <option value="payvandlash">Payvandlash uskunalari</option>
+                <option value="santexnika_asbob">Santexnika asboblari</option>
+              </select>
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label">Sotuv Narxi (so'm) *</label>
+              <input type="number" id="add-prod-price" class="form-input" placeholder="Masalan: 750000" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Eski Narxi (Chegirma uchun)</label>
+              <input type="number" id="add-prod-old-price" class="form-input" placeholder="Masalan: 900000">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Asbob Rasmi Havolasi (URL - faqat apparat rasmi)</label>
+            <input type="url" id="add-prod-image" class="form-input" placeholder="https://images.unsplash.com/...">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Tavsifi</label>
+            <textarea id="add-prod-desc" class="form-textarea" placeholder="Uskunaning asosiy xususiyatlari va parametrlari..."></textarea>
+          </div>
+          <button type="submit" class="gold-button" style="padding: 0.8rem 1.5rem;">
+            Asbobni Do'konga Saqlash
+          </button>
+        </form>
+      </div>
+
+      <!-- 3. DO'KONDAGI ASBOBLAR RO'YXATI -->
+      <div class="admin-console-section">
+        <h3 class="admin-console-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          Do'kondagi Barcha Asbob-Uskunalar
+        </h3>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Rasm</th>
+                <th>Asbob Nomi</th>
+                <th>Brend</th>
+                <th>Toifa</th>
+                <th>Narxi</th>
+                <th>Amal</th>
+              </tr>
+            </thead>
+            <tbody id="admin-products-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 4. RO'YXATDAGI USTALAR -->
+      <div class="admin-console-section">
+        <h3 class="admin-console-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Ro'yxatdagi Farg'ona Ustalari
+        </h3>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Rasm</th>
+                <th>Ism-familiya</th>
+                <th>Kasbi</th>
+                <th>Manzil</th>
+                <th>Telefon</th>
+                <th>Narxi</th>
+                <th>Amal</th>
+              </tr>
+            </thead>
+            <tbody id="admin-masters-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       2. USTALAR (10 TA TOP FARG'ONA USTALARI RO'YXATI & ISH NAMUNALARI)
+       ====================================================================== -->
+  <section id="masters-section" class="section-wrapper">
+    <div class="section-header">
+      <div class="section-title-wrap">
+        <span class="gold-badge">Farg'ona Viloyati Mutaxassislari</span>
+        <h2 class="section-title">
+          <span class="gold-gradient-text">10 ta</span> <span>Top Malakali Ustalarimiz</span>
+        </h2>
+        <p class="section-subtitle">
+          Har bir usta bajargan 3-4 ta haqiqiy ish namunalari bilan tanishing va qulay anketani to'ldirib xonadoningizga chaqiring.
+        </p>
+      </div>
+      <button class="gold-button-outline" onclick="openModal('master-register-modal')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <span>Usta bo'lib a'zo bo'lish</span>
+      </button>
+    </div>
+
+    <!-- Category filter pills for Masters -->
+    <div class="category-pills-scroll">
+      <button class="cat-pill master-cat-pill active" data-cat="all">Barcha ustalar</button>
+      <button class="cat-pill master-cat-pill" data-cat="uy_qurish">Uy qurish</button>
+      <button class="cat-pill master-cat-pill" data-cat="devor_qurish">Devor qurish</button>
+      <button class="cat-pill master-cat-pill" data-cat="kafel">Kafel yotqizish</button>
+      <button class="cat-pill master-cat-pill" data-cat="tosh_gilam">Tosh gilam</button>
+      <button class="cat-pill master-cat-pill" data-cat="suvoq_oboy">Suvoq & Oboy</button>
+      <button class="cat-pill master-cat-pill" data-cat="elektr">Elektron ishlar</button>
+      <button class="cat-pill master-cat-pill" data-cat="tom_qurish">Tom qurish</button>
+      <button class="cat-pill master-cat-pill" data-cat="basseyn">Basen qurish</button>
+      <button class="cat-pill master-cat-pill" data-cat="santexnika">Santexnika</button>
+      <button class="cat-pill master-cat-pill" data-cat="duradgor">Duradgorlik</button>
+    </div>
+
+    <!-- Masters Dynamic Cards Grid (Cards with 3-4 sample work images) -->
+    <div id="masters-cards-grid" class="masters-grid"></div>
+  </section>
+
+  <!-- ======================================================================
+       3. XARITA (FARG'ONA VILOYATI USTALARINING INTERAKTIV XARITASI)
+       ====================================================================== -->
+  <section id="map-section" class="section-wrapper" style="padding-top: 1rem;">
+    <div class="section-header">
+      <div class="section-title-wrap">
+        <span class="gold-badge">Farg'ona Viloyati Xaritasi</span>
+        <h2 class="section-title">
+          <span>Ustalarning Interaktiv Xaritasi</span>
+        </h2>
+        <p class="section-subtitle">
+          Farg'ona, Qo'qon, Marg'ilon, Rishton, Quva, Oltiariq, Quvasoy va Toshloq hududidagi ustalarni GPS orqali ko'ring.
+        </p>
+      </div>
+    </div>
+
+    <div class="map-card-container">
+      <div class="map-header-bar">
+        <div style="display: flex; align-items: center; gap: 0.6rem;">
+          <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: #10b981; box-shadow: 0 0 10px #10b981;"></span>
+          <strong style="font-size: 0.9rem;">Hozirda 10 ta usta Farg'ona viloyati bo'ylab jonli xizmat ko'rsatmoqda</strong>
+        </div>
+        <span class="gold-badge">GPS Koordinata: Farg'ona [40.3842, 71.7843]</span>
+      </div>
+      <div id="masters-interactive-map"></div>
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       4. DO'KON (FAQAT ASBOB-USKUNALAR & JIHOZLAR, ODAMLAR RASMISIZ)
+       ====================================================================== -->
+  <section id="store-section" class="section-wrapper">
+    <div class="section-header">
+      <div class="section-title-wrap">
+        <span class="gold-badge">Rasmiy Asboblar Do'koni</span>
+        <h2 class="section-title">
+          <span class="gold-gradient-text">Uskunalar va Ish Qurollari</span> <span>Do'koni</span>
+        </h2>
+        <p class="section-subtitle">
+          Faqat professional qurilish asboblari, stanoklar va dastgohlar (odamlarsiz, faqat original uskunalar).
+        </p>
+      </div>
+      <button class="gold-button" onclick="openCartDrawer()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        <span>Savatchani ko'rish</span>
+      </button>
+    </div>
+
+    <!-- Product Category Pills -->
+    <div class="category-pills-scroll">
+      <button class="cat-pill prod-cat-pill active" data-cat="all">Barcha uskunalar</button>
+      <button class="cat-pill prod-cat-pill" data-cat="elektr_asboblar">Elektr asboblar</button>
+      <button class="cat-pill prod-cat-pill" data-cat="olchov">Lazer va O'lchov</button>
+      <button class="cat-pill prod-cat-pill" data-cat="payvandlash">Payvandlash</button>
+      <button class="cat-pill prod-cat-pill" data-cat="qol_asboblari">Qo'l asboblari & Narvon</button>
+      <button class="cat-pill prod-cat-pill" data-cat="santexnika_asbob">Santexnika uskunasi</button>
+    </div>
+
+    <!-- Store Products Dynamic Grid (Pure hardware photos) -->
+    <div id="store-products-grid" class="store-grid"></div>
+  </section>
+
+  <!-- ======================================================================
+       SHOPPING CART DRAWER
+       ====================================================================== -->
+  <div id="cart-drawer-overlay" class="cart-drawer-overlay" onclick="closeCartDrawer()"></div>
+  <aside id="cart-drawer" class="cart-drawer">
+    <div class="cart-drawer-header">
+      <h3 style="display: flex; align-items: center; gap: 0.5rem;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--gold-500)" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        <span>Xaridlar Savatchasi</span>
+      </h3>
+      <button class="modal-close-btn" onclick="closeCartDrawer()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <div id="cart-drawer-items" class="cart-drawer-items"></div>
+
+    <div class="cart-drawer-footer">
+      <div class="cart-total-row">
+        <span class="cart-total-label">Jami summa:</span>
+        <span id="cart-total-amount" class="cart-total-amount">0 so'm</span>
+      </div>
+      <button id="btn-cart-checkout" class="gold-button" onclick="openModal('checkout-modal')" style="width: 100%;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        <span>Buyurtma berish</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ======================================================================
+       MODAL: AUTH ROLE CHOICE (MIJOZ VA USTA BO'LIB KIRISH)
+       ====================================================================== -->
+  <div id="auth-choice-modal" class="modal-backdrop">
+    <div class="modal-content-box" style="max-width: 540px;">
+      <div class="modal-header">
+        <h3 class="gold-gradient-text">Tizimga Kirish / Ro'yxatdan O'tish</h3>
+        <button class="modal-close-btn" onclick="closeModal('auth-choice-modal')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body" style="text-align: center;">
+        <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 1.5rem;">
+          Platformadan foydalanish uchun o'z rolingizni tanlang:
+        </p>
+
+        <div class="auth-choice-grid">
+          <!-- Card 1: Mijoz -->
+          <div class="auth-role-card" onclick="closeModal('auth-choice-modal'); openModal('client-register-modal');">
+            <div class="auth-role-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div class="auth-role-title">Mijoz Bo'lib Kirish</div>
+            <div class="auth-role-desc">Ustalarni chaqirish, anketalarni to'ldirish va uskunalar xarid qilish uchun.</div>
+            <button class="gold-button" style="width: 100%; margin-top: auto; padding: 0.5rem;">Kirish</button>
+          </div>
+
+          <!-- Card 2: Usta -->
+          <div class="auth-role-card" onclick="closeModal('auth-choice-modal'); openModal('master-register-modal');">
+            <div class="auth-role-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+            </div>
+            <div class="auth-role-title">Usta Bo'lib Ro'yxatdan O'tish</div>
+            <div class="auth-role-desc">Farg'ona viloyati bo'yicha o'z xizmatlaringiz va narxlaringizni e'lon qilish.</div>
+            <button class="gold-button-outline" style="width: 100%; margin-top: auto; padding: 0.5rem;">Ro'yxatdan o'tish</button>
+          </div>
+        </div>
+
+        <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-color); font-size: 0.82rem; color: var(--text-muted);">
+          <span>Bosh Administrator uchun maxsus kirish: </span>
+          <a href="javascript:void(0)" onclick="closeModal('auth-choice-modal'); openModal('admin-login-modal');" style="color: var(--gold-500); font-weight: 700;">
+            Admin Panel (ABDUNOZIM)
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODAL: MIJOZ BO'LIB KIRISH (CLIENT REGISTER MODAL)
+       ====================================================================== -->
+  <div id="client-register-modal" class="modal-backdrop">
+    <div class="modal-content-box" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 class="gold-gradient-text">Mijoz Sifatida Kirish</h3>
+        <button class="modal-close-btn" onclick="closeModal('client-register-modal')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="client-register-form">
+          <div class="form-group">
+            <label class="form-label">To'liq Ism-Familiyangiz *</label>
+            <input type="text" id="reg-client-name" class="form-input" placeholder="Masalan: Sardor Aliyev" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Telefon Raqamingiz *</label>
+            <input type="tel" id="reg-client-phone" class="form-input" placeholder="+998 90 123 45 67" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Shahar / Tuman (Farg'ona viloyati)</label>
+            <input type="text" id="reg-client-city" class="form-input" placeholder="Farg'ona shahri, Qo'qon, Marg'ilon...">
+          </div>
+          <button type="submit" class="gold-button" style="width: 100%; margin-top: 0.75rem;">
+            Mijoz Sifatida Kirish
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODAL: USTA BO'LIB RO'YXATDAN O'TISH (MASTER REGISTER MODAL)
+       ====================================================================== -->
+  <div id="master-register-modal" class="modal-backdrop">
+    <div class="modal-content-box" style="max-width: 580px;">
+      <div class="modal-header">
+        <h3 class="gold-gradient-text">Usta Bo'lib Ro'yxatdan O'tish</h3>
+        <button class="modal-close-btn" onclick="closeModal('master-register-modal')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="master-register-form">
+          <div class="form-group">
+            <label class="form-label">To'liq Ism-Familiyangiz *</label>
+            <input type="text" id="reg-master-name" class="form-input" placeholder="Masalan: Jasurbek Rahimov" required>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label">Kasbingiz (Mutaxassislik) *</label>
+              <input type="text" id="reg-master-prof" class="form-input" placeholder="Masalan: Kafelchi & Granit ustasi" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Asosiy Yo'nalish *</label>
+              <select id="reg-master-category" class="form-select">
+                <option value="uy_qurish">Uy qurish & Poydevor</option>
+                <option value="devor_qurish">Devor qurish</option>
+                <option value="kafel">Kafel & Marmar</option>
+                <option value="tosh_gilam">Tosh gilam & Bruschatka</option>
+                <option value="suvoq_oboy">Suvoq & Oboy</option>
+                <option value="elektr">Elektron & Elektr</option>
+                <option value="tom_qurish">Tom qurish</option>
+                <option value="basseyn">Basen qurish</option>
+                <option value="santexnika">Santexnika</option>
+                <option value="duradgor">Duradgorlik</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label">Telefon Raqamingiz *</label>
+              <input type="tel" id="reg-master-phone" class="form-input" placeholder="+998 91 234 56 78" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Shahar / Tuman (Farg'ona) *</label>
+              <input type="text" id="reg-master-city" class="form-input" placeholder="Qo'qon, Farg'ona, Rishton..." required>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label">Ish Tajribangiz</label>
+              <input type="text" id="reg-master-exp" class="form-input" placeholder="Masalan: 8 yil">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Xizmat Narxi</label>
+              <input type="text" id="reg-master-rate" class="form-input" placeholder="Masalan: 80 000 so'm / kv.m">
+            </div>
+          </div>
+
+          <button type="submit" class="gold-button" style="width: 100%; margin-top: 0.75rem;">
+            Usta Profilini E'lon Qilish
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODAL: FOYDALANUVCHI PROFILI (USER PROFILE MODAL)
+       ====================================================================== -->
+  <div id="user-profile-modal" class="modal-backdrop">
+    <div class="modal-content-box" style="max-width: 440px; text-align: center;">
+      <div class="modal-header">
+        <h3 class="gold-gradient-text">Foydalanuvchi Profili</h3>
+        <button class="modal-close-btn" onclick="closeModal('user-profile-modal')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body" style="padding: 2rem;">
+        <div style="width: 72px; height: 72px; border-radius: 50%; background: var(--gold-gradient); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; color: #0b0d11; font-size: 1.8rem; font-weight: 800;">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#0b0d11" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <h3 id="profile-user-name" style="font-size: 1.3rem; margin-bottom: 0.3rem;">Foydalanuvchi</h3>
+        <span class="gold-badge" style="margin-bottom: 1.5rem; display: inline-block;">Faol Hisob</span>
+        
+        <button class="gold-button-outline" style="width: 100%; border-color: #ef4444; color: #ef4444;" onclick="handleUserLogout()">
+          Tizimdan Chiqish
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODAL: USTANI CHAQIRISH ANKETASI (CALL MASTER ORDER ANKETA)
+       Client info, Fergana residence address, confirmed work types:
+       Uy qurish, Devor qurish, Oboy qilish, Suvoqchilik, Elektron ishlar,
+       Kafel yotqizish, Tosh gilam yotqizish, Tom qurish, Basen qurish.
+       ====================================================================== -->
+  <div id="anketa-call-modal" class="modal-backdrop">
+    <div class="modal-content-box" style="max-width: 620px;">
+      <div class="modal-header">
+        <div>
+          <h3 class="gold-gradient-text" style="display: flex; align-items: center; gap: 0.5rem;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            Ustani Chaqirish Anketasi
+          </h3>
+          <p id="anketa-master-title" style="color: var(--gold-400); font-size: 0.85rem; font-weight: 700; margin-top: 0.2rem;">
+            Tanlangan Usta: Yuklanmoqda...
+          </p>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('anketa-call-modal')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <form id="anketa-call-form">
+          <input type="hidden" id="anketa-target-master" value="">
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <!-- Mijoz Ismi va Familiyasi -->
+            <div class="form-group">
+              <label class="form-label">Mijoz Ismi va Familiyasi *</label>
+              <input type="text" id="anketa-client-name" class="form-input" placeholder="Masalan: Azizbek Jo'rayev" required>
+            </div>
+            <!-- Telefon Raqami -->
+            <div class="form-group">
+              <label class="form-label">Telefon Raqamingiz *</label>
+              <input type="tel" id="anketa-client-phone" class="form-input" placeholder="+998 90 123 45 67" required>
+            </div>
+          </div>
+
+          <!-- Istiqomat Joyi (Qayerda yashashi) -->
+          <div class="form-group">
+            <label class="form-label">Qayerda Istiqomat Qilasiz? (To'liq Manzil) *</label>
+            <textarea id="anketa-client-address" class="form-textarea" placeholder="Farg'ona viloyati, shahar/tuman, mahalla, ko'cha, uy raqami..." required></textarea>
+          </div>
+
+          <!-- Nima ishligini tasdiqlash (Work types specified by user) -->
+          <div class="form-group">
+            <label class="form-label">Qanday Ish Bajarilishi Kerak? (Ish turini tasdiqlang) *</label>
+            <select id="anketa-work-type" class="form-select" required>
+              <option value="Uy qurish">Uy qurish (Bino va turar-joyni noldan qurish, monolit)</option>
+              <option value="Devor qurish">Devor qurish (Pishiq g'isht, shlakoblok, gazoblok terish)</option>
+              <option value="Oboy qilish">Oboy qilish (Oboy yopishtirish, malyar va shpaklyovka)</option>
+              <option value="Suvoqchilik">Suvoqchilik (Gipsli va sementli mayak suvoq)</option>
+              <option value="Elektron ishlar">Elektron ishlar (Elektr montaj, avtomatika va shit)</option>
+              <option value="Kafel yotqizish">Kafel yotqizish (Granit, marmar, kafel va plitka)</option>
+              <option value="Tosh gilam yotqizish">Tosh gilam yotqizish (Tabiiy tosh gilam va bruschatka)</option>
+              <option value="Tom qurish">Tom qurish (Yog'och karkas, profnastil, cherepitsa)</option>
+              <option value="Basen qurish">Basen qurish (Basseyn, gidroizolyatsiya, qum filtri)</option>
+              <option value="Boshqa ta'mir ishlari">Boshqa qurilish va ta'mir ishlari</option>
+            </select>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <!-- Ish hajmi / maydoni -->
+            <div class="form-group">
+              <label class="form-label">Taxminiy Ish Maydoni / Hajmi</label>
+              <input type="text" id="anketa-work-area" class="form-input" placeholder="Masalan: 120 kv.m yoki 3 xona">
+            </div>
+            <!-- Boshlash vaqti -->
+            <div class="form-group">
+              <label class="form-label">Boshlash Uchun Qulay Vaqt</label>
+              <input type="text" class="form-input" placeholder="Masalan: Ertadan boshlab / Kelishiladi">
+            </div>
+          </div>
+
+          <!-- Qo'shimcha Izoh -->
+          <div class="form-group">
+            <label class="form-label">Ustaga Qo'shimcha Izohlar (Ixtiyoriy)</label>
+            <textarea id="anketa-client-notes" class="form-textarea" placeholder="Ish haqida qo'shimcha tafsilotlar yoki maxsus talablar..."></textarea>
+          </div>
+
+          <button type="submit" class="gold-button" style="width: 100%; padding: 0.85rem; font-size: 1rem;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            Anketani Yuborish va Ustani Chaqirish
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODAL: ADMIN LOGIN TERMINAL (ABDUNOZIM / 2011 2011)
+       Only ONE person holds the password. Completely distinct from user login.
+       ====================================================================== -->
+  <div id="admin-login-modal" class="modal-backdrop">
+    <div class="modal-content-box" style="max-width: 520px; border: 2.5px solid var(--gold-500); background: #080a0e;">
+      <div class="modal-header" style="background: rgba(212, 175, 55, 0.12); border-bottom: 2px solid var(--gold-500);">
+        <h3 style="font-size: 1.35rem; color: #ffd700; display: flex; align-items: center; gap: 0.6rem;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffd700" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Admin Konsolga Kirish (ABDUNOZIM)
+        </h3>
+        <button class="modal-close-btn" onclick="closeModal('admin-login-modal')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="modal-body" style="padding: 2rem;">
+        
+        <!-- Distinct Cyber-Gold Shield Lock -->
+        <div class="admin-gate-icon">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#0b0d11" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        
+        <div style="background: rgba(212, 175, 55, 0.08); border: 1.5px solid rgba(212, 175, 55, 0.4); border-radius: 14px; padding: 1rem; margin-bottom: 1.5rem; text-align: center;">
+          <div style="font-size: 0.8rem; color: #94a3b8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em; margin-bottom: 0.3rem;">
+            Faqat Bitta Shaxsga Ruxsat Berilgan Tizim
+          </div>
+          <div style="display: flex; justify-content: center; gap: 1.25rem; font-size: 0.95rem; flex-wrap: wrap;">
+            <div>Boshiga Ism: <b style="color: #ffd700; font-size: 1.1rem;">ABDUNOZIM</b></div>
+            <div>Tagiga Kod: <b style="color: #ffd700; font-size: 1.1rem; letter-spacing: 2px;">2011 2011</b></div>
+          </div>
+          <button type="button" onclick="quickFillAdminCredentials()" style="margin-top: 0.6rem; background: none; border: 1px dashed var(--gold-500); color: #ffd700; font-size: 0.8rem; padding: 0.35rem 0.75rem; border-radius: 8px; cursor: pointer;">
+            ⚡ 1-bosishda kiritish
+          </button>
+        </div>
+
+        <form id="admin-terminal-form">
+          <!-- BOSHIGA ISM: ABDUNOZIM -->
+          <div class="form-group" style="margin-bottom: 1.25rem;">
+            <label class="form-label" style="color: #ffd700;">
+              Boshiga Ism (Login):
+            </label>
+            <input 
+              type="text" 
+              id="admin-term-user" 
+              class="form-input" 
+              value="ABDUNOZIM" 
+              placeholder="ABDUNOZIM" 
+              required
+              style="font-size: 1.1rem; font-weight: 800; border-color: rgba(212, 175, 55, 0.5);"
+            >
+          </div>
+
+          <!-- TAGIGA KOD: 2011 2011 -->
+          <div class="form-group" style="margin-bottom: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.3rem;">
+              <label class="form-label" style="color: #ffd700;">
+                Tagiga Kod (Parol):
+              </label>
+              <button type="button" onclick="toggleAdminPassVisibility()" style="background: none; border: none; color: var(--gold-400); font-size: 0.8rem; font-weight: 700; cursor: pointer;">
+                Ko'rsatish / Yashirish
+              </button>
+            </div>
+            <input 
+              type="password" 
+              id="admin-term-pass" 
+              class="form-input" 
+              value="2011 2011" 
+              placeholder="2011 2011" 
+              required
+              style="font-size: 1.1rem; font-weight: 800; border-color: rgba(212, 175, 55, 0.5); letter-spacing: 2px;"
+            >
+          </div>
+
+          <button type="submit" class="gold-button" style="width: 100%; padding: 0.9rem; font-size: 1.05rem;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+            Admin Panelga Kirish (ABDUNOZIM)
+          </button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODAL: MASTER DETAILS PROFILE
+       ====================================================================== -->
+  <div id="master-detail-modal" class="modal-backdrop">
+    <div class="modal-content-box" style="max-width: 640px;">
+      <div class="modal-header">
+        <h3 class="gold-gradient-text">Usta Profili va Ish Namunalari</h3>
+        <button class="modal-close-btn" onclick="closeModal('master-detail-modal')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div id="master-detail-modal-body" class="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODAL: CHECKOUT (DO'KON XARIDLARINI RASMIYLASHTIRISH)
+       ====================================================================== -->
+  <div id="checkout-modal" class="modal-backdrop">
+    <div class="modal-content-box" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 class="gold-gradient-text">Buyurtmani Rasmiylashtirish</h3>
+        <button class="modal-close-btn" onclick="closeModal('checkout-modal')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="checkout-form">
+          <div class="form-group">
+            <label class="form-label">Ism-familiyangiz *</label>
+            <input type="text" id="checkout-name" class="form-input" placeholder="Anvar Qodirov" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Telefon raqamingiz *</label>
+            <input type="tel" id="checkout-phone" class="form-input" placeholder="+998 90 123 45 67" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Yetkazib berish manzili *</label>
+            <textarea id="checkout-address" class="form-textarea" placeholder="Farg'ona viloyati, shahar, tuman, ko'cha, uy raqami..." required></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">To'lov turi</label>
+            <select class="form-select">
+              <option>Naqd pul (Qabul qilinganda)</option>
+              <option>UzCard / Humo (Yetkazilganda)</option>
+              <option>Click / Payme</option>
+            </select>
+          </div>
+          <button type="submit" class="gold-button" style="width: 100%;">
+            Buyurtmani Tasdiqlash
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODAL: SYSTEM SETTINGS (SOZLAMALAR)
+       ====================================================================== -->
+  <div id="settings-modal" class="modal-backdrop">
+    <div class="modal-content-box" style="max-width: 460px;">
+      <div class="modal-header">
+        <h3 class="gold-gradient-text">Tizim Sozlamalari</h3>
+        <button class="modal-close-btn" onclick="closeModal('settings-modal')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Mavzu rejimi (Kun / Tun)</label>
+          <select id="settings-theme-select" class="form-select" onchange="applyTheme(this.value)">
+            <option value="dark">Hashamatli Oltin Tun (Dark Gold)</option>
+            <option value="light">Yorqin Oltin Kun (Light Gold)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Sayt tili</label>
+          <select id="settings-lang-select" class="form-select">
+            <option value="uz">O'zbek tili</option>
+            <option value="ru">Русский язык</option>
+            <option value="en">English</option>
+          </select>
+        </div>
+
+        <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">
+          <button class="gold-button-outline" style="width: 100%; border-color: #ef4444; color: #ef4444;" onclick="resetAllData()">
+            Barcha ma'lumotlarni tiklash
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       5. ALOQA (CONTACT FOOTER)
+       ====================================================================== -->
+  <footer id="contact-footer" class="site-footer">
+    <div class="footer-container">
+      <div>
+        <a href="#" class="brand-wrapper">
+          <div class="brand-emblem">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="url(#goldGrad)">
+              <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-1 6h2v3h3v2h-3v5h-2v-5H8v-2h3V7z" />
+            </svg>
+          </div>
+          <span class="brand-title">
+            <span class="gold-gradient-text">USTA ELON</span>
+            <span style="color: white;">UZ</span>
+          </span>
+        </a>
+        <p class="footer-brand-desc">
+          Farg'ona viloyatidagi eng yirik malakali ustalar xizmati va professional qurilish uskunalari do'koni. Har bir xizmat va mahsulot kafolatlangan.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Asosiy Bo'limlar</h4>
+        <ul class="footer-links">
+          <li><a href="#hero">Bosh sahifa</a></li>
+          <li><a href="#masters-section">Ustalar (10 ta Top)</a></li>
+          <li><a href="#map-section">Xarita (Farg'ona)</a></li>
+          <li><a href="#store-section">Do'kon (Asbob-uskunalar)</a></li>
+          <li><a href="#contact-footer">Aloqa</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Xizmatlar</h4>
+        <ul class="footer-links">
+          <li><a href="javascript:void(0)" onclick="openModal('master-register-modal')">Usta bo'lish</a></li>
+          <li><a href="javascript:void(0)" onclick="openModal('client-register-modal')">Mijoz bo'lib kirish</a></li>
+          <li><a href="javascript:void(0)" onclick="openCartDrawer()">Savatcha</a></li>
+          <li><a href="javascript:void(0)" onclick="openModal('admin-login-modal')">Admin Panel (ABDUNOZIM)</a></li>
+          <li><a href="javascript:void(0)" onclick="openModal('settings-modal')">Sozlamalar</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Farg'ona Aloqa Markazi</h4>
+        <p style="margin-bottom: 0.6rem; color: #ffffff; font-weight: 700;">
+          +998 (73) 244-00-00
+        </p>
+        <p style="margin-bottom: 0.6rem; color: #cbd5e1;">
+          Farg'ona viloyati, Farg'ona shahri, Al-Farg'oniy shoh ko'chasi 15-uy
+        </p>
+        <p style="color: var(--gold-500); font-weight: 600;">
+          Ish tartibi: 24/7 (Dam olish kunlarisiz)
+        </p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>&copy; 2026 Usta Elon Uz. Farg'ona viloyati platformasi. Barcha huquqlar himoyalangan.</div>
+      <div style="display: flex; gap: 1rem;">
+        <span>Maxfiylik siyosati</span>
+        <span>•</span>
+        <span>Foydalanish shartlari</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Leaflet JS for Map -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  
+  <!-- Core Script -->
+  <script src="./script.js"></script>
+
+</body>
+</html>
